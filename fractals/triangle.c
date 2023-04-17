@@ -1,6 +1,8 @@
 /* To run: cc  triangle.c   -lm  -lX11 */
 
 #include  "FPToolkit.c"
+#include <stdio.h>
+#include <math.h>
 
 
 int main(){
@@ -8,7 +10,7 @@ int main(){
     //Declare variables here
     //USE DOUBLES!!!!! NOT INTS, except for array accessors
     int swidth, sheight ;
-    double x1, y1, x2, y2, x3, y3;
+    double x0, y0, x1, y1, x2, y2, length, adj, opp;
 
     swidth = 400 ;  sheight = 600 ;
     G_init_graphics (swidth,sheight) ;  // interactive graphics
@@ -19,24 +21,27 @@ int main(){
 
     /* CODE HERE */
 
-    //TODO start top of triangle at (200, 300) for now
+    //Set known values
+    //P0 unknown
+    //P1 (100, 200)
+    //P2 (300, 200)
+    length = 200; //same as hyp
+    adj = length /2; //add to x1 to get missing points x-val
     x1 = 200;
     y1 = 300;
+    x2 = 300;
+    y2 = 200;
 
-    //Lines must  all be the same length
-    double length;
-    length = 100;  //outer triangle
+    //angle of each corner will always be 60 in equilateral triangle
+    opp = length * sin(60) //opp is the +y to unknown P1
+    x0 = x1 + adj;
+    y0 = y1 + opp;
 
-    G_rgb (1.0, 0.0, 0.0) ; // red
-    int i = 0;
-    while(i < length){
-       G_point(x1, y1);
-
-    }
-
-   // draw a line
-   G_rgb (0.0, 1.0, 0.0) ; // green
-   G_line (0,0, swidth-1, sheight-1) ;
+    //now we have all three points, draw lines between them
+    G_rgb(0,0,0); //black
+    G_line(x0, y0, x1, y1);
+    G_line(x0, y0, x2, y2);
+    G_line(x1,y1, x2, y2);
 
 
     /* BEGIN SETDOWN */
