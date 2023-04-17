@@ -27,13 +27,13 @@ int main(){
     //P2 (300, 200)
     length = 200; //same as hyp
     adj = length /2; //add to x1 to get missing points x-val
-    x1 = 100;
-    y1 = 100;
+    x1 = 200;
+    y1 = 300;
     x2 = 300;
-    y2 = 100;
+    y2 = 200;
 
     //angle of each corner will always be 60 in equilateral triangle
-    opp = length * sin(60); //opp is the +y to unknown P1
+    opp = length * sin(60) //opp is the +y to unknown P1
     x0 = x1 + adj;
     y0 = y1 + opp;
 
