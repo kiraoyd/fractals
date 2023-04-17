@@ -1,21 +1,7 @@
-Unable to connect to chat
-
-1 of 7,805
-messed up triangle
-Inbox
-
-Kira Klingenberg <kirak@pdx.edu>
-Attachments
-11:15 PM (1 minute ago)
-to me
-
-
- One attachment
-  •  Scanned by Gmail
 /* To run: cc  triangle.c   -lm  -lX11 */
 
 #include  "FPToolkit.c"
-#include <stdio.h>
+//#include <stdio.h>
 #include <math.h>
 
 #define PI 3.14159265
@@ -53,7 +39,7 @@ void s_triangle(double x0, double y0, double x1, double y1, double x2, double y2
    //call second child: P0 (p0_p1_midx, p0_p1_midy), P1 (x1, y1), P2 (p1_p2_midx, p1_p2_midy)
    s_triangle(p0_p1_midx, p0_p1_midy,x1, y1, p1_p2_midx, p1_p2_midy, new_len, depth, limit);
    //call third child: P0 (p0_p2_midx, p0_p2_midy), P1 (p1_p2_midx,p1_p2_midy), P2 (x2, y2);
-   s_traingle(p0_p2_midx, p0_p2_midy, p1_p2_midx,p1_p2_midy, x2, y2, new_len, depth, limit ) ;
+   s_triangle(p0_p2_midx, p0_p2_midy, p1_p2_midx,p1_p2_midy, x2, y2, new_len, depth, limit ) ;
 
 }
 
