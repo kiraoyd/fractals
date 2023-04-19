@@ -42,7 +42,7 @@ struct Point {
 
 //assumes triangle P0, P1, P5 where P5 is the unknown 90 degree angle point, P0 is lower left, P1 is lower right
 //distance is between P0 and P1, percent is how far from P0, pm is
-struct calculate_point(struct Point p0, struct Point p1, double distance, double percent){
+struct Point calculate_point(struct Point p0, struct Point p1, double distance, double percent){
     //find change in x and y between P0 and P1
     change_x = p1.x - p0.x;
     change_y = p1.y - p0.y;
