@@ -50,13 +50,13 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     //find the point, P2 perpendicular to P0 - P1, heading up off P1
     double x2 = p1.x - change_y;
     double y2 = p1.y + change_x;
-    struct Point p2 = (x2, y2);
+    struct Point p2 = {x2, y2};
 
 
     //find the point, pm that lies between P0 and P1 exactly percent ways from P0, p4 and p5 will be along this line
     double xm = p0.x + (percent * change_x);
     double ym = p0.y + (percent * change_y);
-    struct Point pm = (xm, ym);
+    struct Point pm = {xm, ym};
 
     //find the point, P4, perpendicular to P2, heading off to the left stopping at distance - percent
     //use same technique as finding p2
@@ -67,7 +67,7 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     //find the point, P4, perpendicular to P0 - Pm, heading up off Pm
     double x4 = pm.x - change_y_p0_pm;
     double y4 = pm.y + change_x_p0_pm;
-    struct Point p4 = (x4, y4);
+    struct Point p4 = {x4, y4};
 
     //find distance from pm to p5, call it l
     //first find the distance between P1 and Pm
@@ -77,11 +77,11 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
 
     double l = sqrt(dis_p1_pm * dis_p0_pm);
 
-    double scale_factor = l / distance
+    double scale_factor = l / distance;
 
     double x5 = scale_factor * pm.x;
     double y5 = scale_factor + pm.y;
-    struct Point p5 = (x5, y5);
+    struct Point p5 = {x5, y5};
 
     return p5;
 
