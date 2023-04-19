@@ -24,11 +24,19 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     double y2 = p1.y + change_x;
     struct Point p2 = {x2, y2};
 
+    //TODO: test we found P2 correctly, we did!
+    G_rgb(1,1,1); //white
+    G_line(p1.x, p1.y, p2.x, p2.y);
+
 
     //find the point, pm that lies between P0 and P1 exactly percent ways from P0, p4 and p5 will be along this line
     double xm = p0.x + (percent * change_x);
     double ym = p0.y + (percent * change_y);
     struct Point pm = {xm, ym};
+
+    //TODO: test we found Pm correctly, we did!
+    G_rgb(1,1,1); //white
+    G_line(pm.x, pm.y, p1.x, p1.y);
 
     //find the point, P4, perpendicular to P2, heading off to the left stopping at distance - percent
     //use same technique as finding p2
@@ -41,6 +49,12 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     double y4 = pm.y + change_x_p0_pm;
     struct Point p4 = {x4, y4};
 
+    //TODO test we can find P4 correcctly, we did NOT, it looks like P4 is p5?
+    G_rgb(1,1,0); //yellow
+    G_line(p2.x, p2.y, p4.x, p4.y);
+
+     //TODO something went wrong here
+
     //find distance from pm to p5, call it l
     //first find the distance between P1 and Pm
     double dis_p1_pm = ((pm.x - p1.x) * (pm.x - p1.x)) + ((pm.y - p1.y) * (pm.y - p1.y));
@@ -52,8 +66,12 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     double scale_factor = l / distance;
 
     double x5 = scale_factor * pm.x;
-    double y5 = scale_factor + pm.y;
+    double y5 = scale_factor * pm.y;
     struct Point p5 = {x5, y5};
+
+    //TODO: test we found P5 correctly, we did NOT
+    G_rgb(0,0,1); //blue
+    G_line(p5.x, p5.y, p1.x, p1.y);
 
     return p5;
 
@@ -84,15 +102,17 @@ int main(){
     struct Point p3 = calculate_point(p0, p1, distance, percent);
 
     //TODO: test, draw the triangle
-    /*
+
     G_rgb(1,0,0); //red
     G_line(p0.x, p0.y, p3.x, p3.y);
-    */
+    /*
     G_rgb(0,1,0); //green
     G_line(p3.x, p3.y, p1.x, p1.y);
 
+
     G_rgb(0,0,1); //blue
     G_line(p1.x, p1.y, p0.x, p0.y);
+    */
 
 
 
