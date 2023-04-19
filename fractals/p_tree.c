@@ -8,6 +8,9 @@
 
 #define PI 3.14159265
 
+struct Point {
+    double x, y;
+};
 
 int main(){
 
@@ -25,6 +28,21 @@ int main(){
 
     /* CODE HERE */
 
+    //Create initial p0 and p1 points for the first triangle (also top of trunk square)
+    struct Point p0 = {100, 100};
+    struct Point p1 = {300, 100};
+    double distance = ((p1.x - p0.x) * (p1.x - p0.x)) + ((p1.y - p0.y) * (p1.y - p0.y));
+    //set how far from p0 we want the third point to lie
+    double percent = 0.3;
+    struct Point p3 = calculate_point(p0, p1, distance, percent);
+
+    //TODO: test, draw the triangle
+    G_rgb(1,0,0); //red
+    G_line(p0.x, p0.y, p3.x, p3.y);
+    G_rgb(0,1,0); //green
+    G_line(p3.x, p3.y, p1.x, p1.y);
+    G_rgb(0,0,1); //blue
+    G_line(p1.x, p1.y, p0.x, p0.y);
 
 
 
@@ -36,9 +54,6 @@ int main(){
     G_save_to_bmp_file("demo.bmp") ;
 }
 
-struct Point {
-    double x, y;
-};
 
 //assumes triangle P0, P1, P5 where P5 is the unknown 90 degree angle point, P0 is lower left, P1 is lower right
 //distance is between P0 and P1, percent is how far from P0, pm is
