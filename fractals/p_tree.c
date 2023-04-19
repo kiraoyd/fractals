@@ -42,7 +42,7 @@ struct Point {
 
 //assumes triangle P0, P1, P5 where P5 is the unknown 90 degree angle point, P0 is lower left, P1 is lower right
 //distance is between P0 and P1, percent is how far from P0, pm is
-Point calculate_point(Point p0, Point p1, double distance, double percent){
+struct calculate_point(struct p0, struct p1, double distance, double percent){
     //find change in x and y between P0 and P1
     change_x = p1.x - p0.x;
     change_y = p1.y - p0.y;
@@ -50,13 +50,13 @@ Point calculate_point(Point p0, Point p1, double distance, double percent){
     //find the point, P2 perpendicular to P0 - P1, heading up off P1
     x2 = p1.x - change_y;
     y2 = p1.y + change_x;
-    Point p2 = (x2, y2);
+    struct Point p2 = (x2, y2);
 
 
     //find the point, pm that lies between P0 and P1 exactly percent ways from P0, p4 and p5 will be along this line
     xm = p0.x + (percent * change_x);
     ym = p0.y + (percent * change_y);
-    Point pm = (xm, ym);
+    struct Point pm = (xm, ym);
 
     //find the point, P4, perpendicular to P2, heading off to the left stopping at distance - percent
     //use same technique as finding p2
@@ -67,7 +67,7 @@ Point calculate_point(Point p0, Point p1, double distance, double percent){
     //find the point, P4, perpendicular to P0 - Pm, heading up off Pm
     x4 = pm.x - change_y_p0_pm;
     y4 = pm.y + change_x_p0_pm;
-    Point p4 = (x4, y4);
+    struct Point p4 = (x4, y4);
 
     //find distance from pm to p5, call it l
     //first find the distance between P1 and Pm
@@ -81,7 +81,7 @@ Point calculate_point(Point p0, Point p1, double distance, double percent){
 
     x5 = scale_factor * pm.x;
     y5 = scale_factor + pm.y;
-    Point p5 = (x5, y5);
+    struct Point p5 = (x5, y5);
 
     return p5;
 
