@@ -1,11 +1,9 @@
-/* To run: cc  triangle.c   -lm  -lX11 */
 
 #include  "FPToolkit.c"
 //#include <stdio.h>
 #include <math.h>
 
 #define PI 3.14159265
-
 
 void s_triangle(double x0, double y0, double x1, double y1, double x2, double y2, double length, double depth, double limit){
 
@@ -14,10 +12,28 @@ void s_triangle(double x0, double y0, double x1, double y1, double x2, double y2
        return;
     }
     //now we have all three points, draw lines between them
-    G_rgb(0,0,0); //black
+    G_rgb(0,0,0);
     G_line(x0, y0, x1, y1); //between P0 and P1
     G_line(x0, y0, x2, y2); //between P0 and P2
     G_line(x1,y1, x2, y2); //between P1 and P2
+
+    //TODO experiment with color
+    //Color the negative space blue
+    double mod = floor(remainder(depth,2));
+    if (mod == 0) {
+        G_rgb(0,0,1); //blue
+    }
+    else if(mod == 1){
+       G_rgb (1, 0.64, 0); //orange
+    }
+    else{
+        G_rgb(1,1,1); //black
+    }
+
+    G_fill_triangle(x0, y0, x1, y1, x2, y2);
+
+    int key ;
+    key =  G_wait_key() ;
 
    //calculate the midpoints
    double split = 0.5;
@@ -40,7 +56,6 @@ void s_triangle(double x0, double y0, double x1, double y1, double x2, double y2
    s_triangle(p0_p1_midx, p0_p1_midy,x1, y1, p1_p2_midx, p1_p2_midy, new_len, depth, limit);
    //call third child: P0 (p0_p2_midx, p0_p2_midy), P1 (p1_p2_midx,p1_p2_midy), P2 (x2, y2);
    s_triangle(p0_p2_midx, p0_p2_midy, p1_p2_midx,p1_p2_midy, x2, y2, new_len, depth, limit ) ;
-
 }
 
 
@@ -51,7 +66,7 @@ int main(){
     int swidth, sheight ;
     double x0, y0, x1, y1, x2, y2, length, adj, opp;
 
-    swidth = 400 ;  sheight = 600 ;
+    swidth = 400 ;  sheight = 400 ;
     G_init_graphics (swidth,sheight) ;  // interactive graphics
 
     // clear the screen in a given color
@@ -71,8 +86,6 @@ int main(){
     x2 = 300;
     y2 = 100;
 
-
-
     //angle of each corner will always be 60 in equilateral triangle
     double angle = 60;
     double radians = angle * (PI/180);
@@ -82,7 +95,7 @@ int main(){
 
     //now we have all three points, call the function
     double depth = 0;
-    double limit = 5;
+    double limit = 6;
     s_triangle(x0, y0, x1, y1, x2, y2, length, depth, limit);
 
 
