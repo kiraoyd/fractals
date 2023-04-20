@@ -19,17 +19,6 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     double change_x = p1.x - p0.x;
     double change_y = p1.y - p0.y;
 
-    //find the point, P2 perpendicular to P0 - P1, heading up off P1
-    //TODO we don't actually need this
-    double x2 = p1.x - change_y;
-    double y2 = p1.y + change_x;
-    struct Point p2 = {x2, y2};
-
-    //TODO: test we found P2 correctly, we did!
-    G_rgb(1,1,1); //white
-    G_line(p1.x, p1.y, p2.x, p2.y);
-
-
     //find the point, pm that lies between P0 and P1 exactly percent ways from P0, p4 and p5 will be along this line
     double xm = p0.x + (percent * change_x);
     double ym = p0.y + (percent * change_y);
@@ -50,19 +39,24 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     G_line(p3.x, p3.y, p0.x, p0.y);
 
     //first find the distance between P1 and Pm
-    double dis_p1_pm = ((p1.x - pm.x) * (p1.x - pm.x)) + ((p1.y - pm.y) * (p1.y - pm.y));
+    double dis_p1_pm = sqrt((p1.x - pm.x) * (p1.x - pm.x) + (p1.y - pm.y) * (p1.y - pm.y));
+    printf("Distance p1 pm %f ", dis_p1_pm);
     //then find the distance between p0 and pm
     double dis_p0_pm = distance - dis_p1_pm;
+    printf("Distance p0 pm %f ", dis_p0_pm);
 
     double l = sqrt(dis_p1_pm * dis_p0_pm);
+    printf("l: %f ", l);
 
     double scale_factor = l / distance;
 
-    double x_90 = scale_factor * p3.x;
-    double y_90 = scale_factor * p3.y;
+    //move from p3 over by change in y times scale factor...
+    //...and from p3 down by the change in x times the scale factor
+    double x_90 = p3.x + scale_factor * change_y;
+    double y_90 = p3.y - scale_factor * change_x;
     struct Point p_90 = {x_90, y_90};
 
-    //TODO: test we found P_90 correctly, we did NOT
+    //TODO: test we found P_90 correctly, we did!
     G_rgb(0,0,1); //blue
     G_line(p_90.x, p_90.y, p1.x, p1.y);
 
@@ -89,8 +83,8 @@ int main(){
     //Create initial p0 and p1 points for the first triangle (also top of trunk square)
     struct Point p0 = {100, 100};
     struct Point p1 = {300, 100};
-    double distance = ((p1.x - p0.x) * (p1.x - p0.x)) + ((p1.y - p0.y) * (p1.y - p0.y));
-    printf("Distance ", distance);
+    double distance = sqrt((p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y));
+    printf("Distance %f ", distance);
     //set how far from p0 we want the third point to lie
     double percent = 0.3;
     struct Point p3 = calculate_point(p0, p1, distance, percent);
