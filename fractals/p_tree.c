@@ -20,6 +20,7 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     double change_y = p1.y - p0.y;
 
     //find the point, P2 perpendicular to P0 - P1, heading up off P1
+    //TODO we don't actually need this
     double x2 = p1.x - change_y;
     double y2 = p1.y + change_x;
     struct Point p2 = {x2, y2};
@@ -38,24 +39,16 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     G_rgb(1,1,1); //white
     G_line(pm.x, pm.y, p1.x, p1.y);
 
-    //find the point, P4, perpendicular to P2, heading off to the left stopping at distance - percent
-    //use same technique as finding p2
+    //find the point, P3, directly above pm
+    //It will be back from pm by change_y, and up by change_x
+    double x3 = pm.x - change_y;
+    double y3 = pm.y + change_x;
+    struct Point p3 = {x3, y3};
 
-    //find change in x and y between P0 and Pm
-    double change_x_p0_pm = pm.x - p0.x;
-    double change_y_p0_pm = pm.y - p0.y;
-    //find the point, P4, perpendicular to P0 - Pm, heading up off Pm
-    double x4 = pm.x - change_y_p0_pm;
-    double y4 = pm.y + change_x_p0_pm;
-    struct Point p4 = {x4, y4};
+    //TODO test we found P3 correctly, we did!
+    G_rgb(0,0,0); //black
+    G_line(p3.x, p3.y, p0.x, p0.y);
 
-    //TODO test we can find P4 correcctly, we did NOT, it looks like P4 is p5?
-    G_rgb(1,1,0); //yellow
-    G_line(p2.x, p2.y, p4.x, p4.y);
-
-     //TODO something went wrong here
-
-    //find distance from pm to p5, call it l
     //first find the distance between P1 and Pm
     double dis_p1_pm = ((pm.x - p1.x) * (pm.x - p1.x)) + ((pm.y - p1.y) * (pm.y - p1.y));
     //then find the distance between p0 and pm
@@ -65,15 +58,15 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
 
     double scale_factor = l / distance;
 
-    double x5 = scale_factor * pm.x;
-    double y5 = scale_factor * pm.y;
-    struct Point p5 = {x5, y5};
+    double x_90 = scale_factor * p3.x;
+    double y_90 = scale_factor * p3.y;
+    struct Point p_90 = {x_90, y_90};
 
     //TODO: test we found P5 correctly, we did NOT
     G_rgb(0,0,1); //blue
-    G_line(p5.x, p5.y, p1.x, p1.y);
+    G_line(p_90.x, p_90.y, p1.x, p1.y);
 
-    return p5;
+    return p_90;
 
 }
 
