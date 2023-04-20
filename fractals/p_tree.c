@@ -64,6 +64,28 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
 
 }
 
+void tree (struct Point p0, struct Point p1, double distance, double percent, double depth){
+    if (depth == 0){
+         return;
+    }
+
+    //get the thrid point
+    struct Point p3 = calculate_point(p0, p1, distance, percent);
+
+    //TODO: test, draw the triangle
+    G_rgb(1,0,0); //red
+    G_line(p0.x, p0.y, p3.x, p3.y);
+    G_rgb(0,1,0); //green
+    G_line(p3.x, p3.y, p1.x, p1.y);
+    G_rgb(1,0,1); //purple
+    G_line(p1.x, p1.y, p0.x, p0.y);
+
+    //draw squares off each edge: p0-p3, p3-p1, p1-p0
+    //change in x and change in y will be the same to find how far up and
+
+    depth -= 1;
+}
+
 int main(){
 
     //Declare variables here
@@ -87,20 +109,10 @@ int main(){
     printf("Distance %f ", distance);
     //set how far from p0 we want the third point to lie
     double percent = 0.3;
-    struct Point p3 = calculate_point(p0, p1, distance, percent);
 
-    //TODO: test, draw the triangle
 
-    G_rgb(1,0,0); //red
-    G_line(p0.x, p0.y, p3.x, p3.y);
-    /*
-    G_rgb(0,1,0); //green
-    G_line(p3.x, p3.y, p1.x, p1.y);
-
-*/
-
-    G_rgb(1,0,1); //purple
-    G_line(p1.x, p1.y, p0.x, p0.y);
+    //pass two points of a line to a function that calculates the missing third point, and draws a square off each edge
+    //of the resulting triangle
 
 
 
