@@ -102,10 +102,11 @@ int main(){
     G_rgb(0,1,0); //green
     G_line(p3.x, p3.y, p1.x, p1.y);
 
+*/
 
-    G_rgb(0,0,1); //blue
+    G_rgb(1,0,1); //purple
     G_line(p1.x, p1.y, p0.x, p0.y);
-    */
+
 
 
 
