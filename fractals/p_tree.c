@@ -1,7 +1,5 @@
 /* To run: cc  p_tree.c   -lm  -lX11 */
 
-
-
 #include  "FPToolkit.c"
 //#include <stdio.h>
 #include <math.h>
@@ -12,7 +10,8 @@ struct Point {
     double x, y;
 };
 
-//assumes triangle P0, P1, P5 where P5 is the unknown 90 degree angle point, P0 is lower left, P1 is lower right
+//assumes triangle P0, P1, P2
+//where P2 is the unknown 90 degree angle point at the top, P0 is lower left, P1 is lower right
 //distance is between P0 and P1, percent is how far from P0, pm is
 struct Point calculate_point(struct Point p0, struct Point p1, double distance, double percent){
     //find change in x and y between P0 and P1
@@ -24,11 +23,14 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     double ym = p0.y + (percent * change_y);
     struct Point pm = {xm, ym};
 
+/*
     //TODO: test we found Pm correctly, we did!
     G_rgb(1,1,1); //white
     G_line(pm.x, pm.y, p1.x, p1.y);
+    */
 
     //find the point, P3, directly above pm
+    //We will calculate p2, the needed point, using this point
     //It will be back from pm by change_y, and up by change_x
     double x3 = pm.x - change_y;
     double y3 = pm.y + change_x;
@@ -45,18 +47,22 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
 
     //move from p3 over by change in y times scale factor...
     //...and from p3 down by the change in x times the scale factor
-    double x_90 = p3.x + scale_factor * change_y;
-    double y_90 = p3.y - scale_factor * change_x;
-    struct Point p_90 = {x_90, y_90};
+    double x2 = p3.x + scale_factor * change_y;
+    double y2 = p3.y - scale_factor * change_x;
+    struct Point p2 = {x2, y2};
 
+/*
     //TODO: test we found P_90 correctly, we did!
     G_rgb(0,0,1); //blue
-    G_line(p_90.x, p_90.y, p1.x, p1.y);
+    G_line(p2.x, p2.y, p1.x, p1.y);
+    */
 
-    return p_90;
+    return p2;
 
 }
 
+//given p0 and p1, find point off p1 that lies along the same line, at a distance equal to dis(p0,p1)
+//Used in testing to ensure we are doing the math right
 struct Point find_point(struct Point p0, struct Point p1){
     double change_x = p1.x - p0.x;
     double change_y = p1.y - p0.y;
@@ -76,15 +82,20 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
     //get the third point
     struct Point p2 = calculate_point(p0, p1, distance, percent);
 
-    //TODO: test, draw the triangle
+    //draw triangle
     G_rgb(1,0,0); //red
     G_line(p0.x, p0.y, p2.x, p2.y);
     G_rgb(0,1,0); //green
     G_line(p2.x, p2.y, p1.x, p1.y);
     G_rgb(1,0,1); //purple
     G_line(p1.x, p1.y, p0.x, p0.y);
+    G_rgb(.588, 0.294, 0);
+    G_fill_triangle(p0.x, p0.y, p2.x, p2.y, p1.x, p1.y);
 
-    //draw squares off each edge: p0-p2, p2-p1
+    //draw squares off each edge: p0-p2, p2-p1, p0-p1
+
+    //-----------------------------//
+    //change x and y between p2 and p0
     double change_x = p2.x - p0.x;
     double change_y = p2.y - p0.y;
 
@@ -97,12 +108,15 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
     double p3x = p0.x - change_y;
     double p3y = p0.y + change_x;
     struct Point p3 = {p3x, p3y};
+
     //Draw square off p0-p2
-    G_rgb(0,0,0);
+    G_rgb(0.6, 0.32, 0.24);
     G_line(p2.x, p2.y, p4.x, p4.y);
     G_line(p0.x, p0.y, p3.x, p3.y);
     G_line(p3.x, p3.y, p4.x, p4.y);
 
+    //-----------------------------//
+    //change x and y between p2 and p1
     change_x = p1.x - p2.x;
     change_y = p1.y - p2.y;
 
@@ -117,12 +131,14 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
     struct Point p6 = {p6x, p6y};
 
     //draw square off p2-p1
-    G_rgb(0,0,0);
+     G_rgb(0.6, 0.32, 0.24);
     G_line(p1.x, p1.y, p6.x, p6.y);
     G_line(p2.x, p2.y, p5.x, p5.y);
     G_line(p5.x, p5.y, p6.x, p6.y);
 
 
+    //-----------------------------//
+    //change x and y between p0 and p1
     change_x = p0.x - p1.x;
     change_y = p0.y - p1.y;
 
@@ -137,15 +153,26 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
     struct Point p8 = {p8x, p8y};
 
     //Draw square off p0-p1
-    G_rgb(0,0,0);
+    G_rgb(0.6, 0.32, 0.24);
     G_line(p0.x, p0.y, p7.x, p7.y);
     G_line(p1.x, p1.y, p8.x, p8.y);
     G_line(p7.x, p7.y, p8.x, p8.y);
+    //-----------------------------//
 
-
+    //Initial blossoms
     if(depth == 1){
+        //adjust colors to be one of three shades of pink
+        int random = rand() % 3; //make 3 random numbers from 0 -2
 
-        G_rgb(1,0,1);
+        if(random == 0){
+            G_rgb(0.87,0.647,0.643);//hot pink
+        }
+        else if (random == 1){
+            G_rgb(0.95,0.76,0.76);//pink
+        } else {
+            G_rgb(0.98,0.85,0.86);//light pink
+        }
+        //draw circles at the end points of each final square
         G_fill_circle(p3.x, p3.y, 5);
         G_fill_circle(p4.x, p4.y, 5);
         G_fill_circle(p5.x, p5.y, 5);
@@ -155,13 +182,9 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
 
     depth -= 1;
 
-
     //call children with p3-p4 and p5-p6
     tree(p3,p4, distance, percent, depth);
     tree(p5, p6, distance, percent, depth);
-
-
-
 }
 
 int main(){
@@ -189,25 +212,23 @@ int main(){
     double depth = 8;
 
 
+    //initial points for a second tree
     struct Point p2 = {200, 500};
     struct Point p3 = {250, 500};
     double distance2 = sqrt((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
     double percent2 = 0.7;
     double depth2 = 7;
 
+    //calculate and draw trees recursively
     tree(p2,p3, distance2, percent2, depth2);
-    //pass two points of a line to a function that calculates the missing third point, and draws a square off each edge
-    //of the resulting triangle
     tree(p0, p1, distance, percent, depth);
-
-
 
     /* BEGIN SETDOWN */
     int key ;
     key =  G_wait_key() ; // pause so user can see results
 
     //   G_save_image_to_file("demo.xwd") ;
-    G_save_to_bmp_file("demo.bmp") ;
+    G_save_to_bmp_file("trees.bmp") ;
 }
 
 
