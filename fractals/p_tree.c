@@ -74,7 +74,7 @@ struct Point find_point(struct Point p0, struct Point p1){
     return p_off_p1;
 }
 
-void tree (struct Point p0, struct Point p1, double distance, double percent, double depth){
+void tree (struct Point p0, struct Point p1, double distance, double percent, double depth, struct Point blossoms[], int *index){
     if (depth == 0){
          return;
     }
@@ -178,13 +178,37 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
         G_fill_circle(p5.x, p5.y, 5);
         G_fill_circle(p6.x, p6.y, 5);
 
+        //populate array
+        blossoms[(*index)] = p3;
+        (*index)++;
+        blossoms[(*index)] = p4;
+        (*index)++;
+        blossoms[(*index)] = p5;
+        (*index)++;
+        blossoms[(*index)] = p6;
+        (*index)++;
+
     }
 
     depth -= 1;
 
     //call children with p3-p4 and p5-p6
-    tree(p3,p4, distance, percent, depth);
-    tree(p5, p6, distance, percent, depth);
+    tree(p3,p4, distance, percent, depth, blossoms, index);
+    tree(p5, p6, distance, percent, depth, blossoms, index);
+}
+
+//TODO
+int increase_size(struct Point array[], int size, int last_radius){
+    int index = 0;
+    int radius = last_radius++;
+    G_rgb(0.98,0.85,0.86);//light pink
+    //while (index < size && !(array[index].x == 0 && array[index].y == 0)){
+    while (index < size){
+         G_fill_circle(array[index].x, array[index].y, last_radius);
+         index ++;
+    }
+    G_wait_key();
+    return radius;
 }
 
 int main(){
@@ -219,9 +243,44 @@ int main(){
     double percent2 = 0.7;
     double depth2 = 7;
 
+
+     //make array and index pointer to keep track of blossom positions (up to 1000)
+     int size = 1000;
+
+     //first array for big tree
+     struct Point init = {0,0};
+     struct Point blossoms [size];
+     //initialize
+     for(int i =0; i < size; i++){
+        blossoms[i] = init;
+     }
+
+     int index_val = 0;
+     int *index = &index_val;
+
+     //second array for small tree
+     struct Point blossoms2 [size];
+     //initialize
+     for(int i =0; i < size; i++){
+        blossoms2[i] = init;
+     }
+
+     int index_val2 = 0;
+     int *index2 = &index_val2;
+
     //calculate and draw trees recursively
-    tree(p2,p3, distance2, percent2, depth2);
-    tree(p0, p1, distance, percent, depth);
+    tree(p0, p1, distance, percent, depth, blossoms, index);
+
+    tree(p2,p3, distance2, percent2, depth2, blossoms2, index2);
+
+    //TODO
+    int count = 0;
+    int radius = 5;
+    while (count < 10){
+        radius = increase_size(blossoms, size, radius);
+        count++;
+    }
+
 
     /* BEGIN SETDOWN */
     int key ;
