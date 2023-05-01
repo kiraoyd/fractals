@@ -188,6 +188,9 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
         blossoms[(*index)] = p6;
         (*index)++;
 
+
+
+
     }
 
     depth -= 1;
@@ -197,18 +200,19 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
     tree(p5, p6, distance, percent, depth, blossoms, index);
 }
 
-//TODO
-int increase_size(struct Point array[], int size, int last_radius){
-    int index = 0;
-    int radius = last_radius++;
-    G_rgb(0.98,0.85,0.86);//light pink
-    //while (index < size && !(array[index].x == 0 && array[index].y == 0)){
-    while (index < size){
-         G_fill_circle(array[index].x, array[index].y, last_radius);
-         index ++;
+//TODO, doesn't quite work with the size of...
+int increase_size(struct Point blossoms[]){
+    int radius = 5;
+    while (radius < 10){
+        int count = 0;
+       while(count < (sizeof(*blossoms) / sizeof(struct Point))){
+            G_fill_circle(blossoms[count].x, blossoms[count].y, radius);
+            count++;
+       }
+       G_wait_key();
+       radius= radius + 2;
     }
-    G_wait_key();
-    return radius;
+
 }
 
 int main(){
@@ -270,16 +274,43 @@ int main(){
 
     //calculate and draw trees recursively
     tree(p0, p1, distance, percent, depth, blossoms, index);
-
     tree(p2,p3, distance2, percent2, depth2, blossoms2, index2);
 
-    //TODO
-    int count = 0;
-    int radius = 5;
-    while (count < 10){
-        radius = increase_size(blossoms, size, radius);
-        count++;
+    //animate blossoms on front tree
+   int radius = 5;
+    while (radius < 10){
+       int count = 0;
+       while(count < (sizeof(blossoms) / sizeof(struct Point))){
+            G_fill_circle(blossoms[count].x, blossoms[count].y, radius);
+            count++;
+       }
+       G_wait_key();
+       radius= radius + 2;
     }
+
+    //animate blossoms on back tree
+    radius = 5;
+    while (radius < 10){
+       int count = 0;
+       while(count < (sizeof(blossoms2) / sizeof(struct Point))){
+            G_fill_circle(blossoms2[count].x, blossoms2[count].y, radius);
+            count++;
+       }
+       G_wait_key();
+       radius= radius + 2;
+    }
+
+    // TODO animate blossoms falling from front tree
+    int blossom = 0;
+    while(index < (sizeof(blossoms) / sizeof(struct Point))){
+        while(blossoms[blossom].y > 0){
+            blossoms[index].y--;
+            G_fill_circle(blossoms[blossom].x, blossoms[blossom].y, radius);
+        }
+        blossom++;
+    }
+
+
 
 
     /* BEGIN SETDOWN */

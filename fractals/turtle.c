@@ -5,9 +5,9 @@
 #include <math.h>
 #include <string.h>
 
-const int RULE_MAX = 100;
+const int RULE_MAX = 100; //up to 100 characters in any rule
 const int RULE_NUM = 30; //up to 30 rules in any grammar
-const int INSTRUCTIONS_MAX = 1000000;
+const int INSTRUCTIONS_MAX = 1000000; //max characters in one instruction string
 
 struct Point {
     double x, y;
@@ -15,7 +15,7 @@ struct Point {
 
 struct Rule {
     char var;
-    char rule [100];
+    char rule [100]; //each rule limited to 100 char max
 };
 
 struct Grammar {
@@ -41,26 +41,18 @@ int find_rule(struct Grammar grammar, char match, char* rule){
 }
 
 
-    //General Algorithm:
-    //Write some rules
-    //the initial array needs to hold the "axiom", so start by loading that in to the array
-    //Now parse the array left to right
-    //When we see the axiom, replace it with what that variable's rule goes too
-    //Continue to do this, left to right parsing, until you reach some max depth
-    //non-terminals get added back in without being changed
 int builder(struct Grammar rules, int depth, char* instructions){
     //build the first string
     instructions[0] = '\0';
-    char axiom[1];
+    char axiom[1]; //make this a string for ease of strcpy
     axiom[0] = rules.axiom;
-    strcpy(instructions, axiom);
+    strcpy(instructions, axiom); //first thing in instructions should be the axiom
 
     //parse the string repeatedly
     int count = 0;
     //this loop controls how many times we replace instruction variables with rules
     while (count < depth){
         //start at the first index of the instructions
-        //match the character found in each index, to a rule
         int length = strlen(instructions);
         int index = 0;
         //make temp to hold all strings that need to be concatenated
@@ -68,6 +60,7 @@ int builder(struct Grammar rules, int depth, char* instructions){
         char temp[strlen(instructions)][RULE_MAX];
         //for each index, find out what should go in that position, and add to the array of temp strings
         while (index < length){
+            //match the character found in each index, to a rule
             if(instructions[index] >= 'A' && instructions[index] <= 'Z'){
                 //find the string replacing this index
                 char* replace = malloc(RULE_MAX * sizeof(char));
@@ -92,22 +85,21 @@ int builder(struct Grammar rules, int depth, char* instructions){
             }
             else{
                 temp[index][0] = '\0';
-                }
+            }
             index++;
         }
-
 
         //once we have all rules in place of variables in temp, concatenate all those into a big char array
         char concatenated[INSTRUCTIONS_MAX];
         concatenated[0] = '\0';
         index = 0;
         //roll through the temp, and build one long string from what's stored in temp
-        //length of instructions should be the same as length of temp now
+        //length of instructions should be the same as length of temp, since we used instructions to build temp
         while (index < length){
             strcat(concatenated, temp[index]);
             index++;
         }
-        //copy concatenated into instructions
+        //copy concatenated into instructions to overwrite instructions with new string
         strcpy(instructions, concatenated);
         printf("At depth %d, instruc: %s\n", count, instructions);
         count++;
@@ -116,7 +108,7 @@ int builder(struct Grammar rules, int depth, char* instructions){
     return 0;
 }
 
-//Test string builder
+//Test string builder on console output of instructions
 void test_builder(){
 
     //make a test grammar
@@ -126,7 +118,6 @@ void test_builder(){
     my_rules.rules[1].var = 'A';
     strcpy(my_rules.rules[1].rule, "B-B");
     my_rules.axiom = 'B';
-
 
     int depth = 6;
     char* instructions = malloc(INSTRUCTIONS_MAX*sizeof(char));
@@ -260,6 +251,15 @@ int main(){
     draw_flower(200, 200, 10);
     draw_flower(400, 400, 20);
 
+
+    // BEGIN SETDOWN
+    int key ;
+    key =  G_wait_key() ; // pause so user can see results
+
+    //   G_save_image_to_file("demo.xwd") ;
+    G_save_to_bmp_file("trees.bmp") ;
+
+
 /*
     //Some reference code below:
     char v[1000000];
@@ -271,13 +271,5 @@ int main(){
     strcat(u,v);
     strcpy(v,u);
 */
-
-    // BEGIN SETDOWN
-    int key ;
-    key =  G_wait_key() ; // pause so user can see results
-
-    //   G_save_image_to_file("demo.xwd") ;
-    G_save_to_bmp_file("trees.bmp") ;
-
     return 0;
 }
