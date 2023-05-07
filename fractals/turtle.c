@@ -185,6 +185,116 @@ void turtle (char instruction_string[], double startx, double starty, int distan
     }
 }
 
+struct Turtle_info {
+    double startx, starty;
+    int distance;
+}
+
+//Simuates the draw, and finds the min and max of x and y coords, and returns a new startx, starty, and distance
+void auto_placer (char instruction_string[], &struct Turtle_info turtle, int s_width, int s_height){
+    int index = 0;
+    double angle = 0; //angle to plot next point off
+    double angle_change = 30*(M_PI/180); //amount angle changes each + or -
+    int step = distance; //length of line between start point and new point
+    struct Point move_to = {0,0}; //temp to hold new position of turtle
+    struct Point position;
+    position.x = *turtle.startx;
+    position.y = *turtle.starty;
+
+    //the min/max X and min/max Y will begin as the initial point we start at
+    double x_max = *turtle.startx;
+    double x_min = *turtle.startx;
+    double y_max = *turtle.starty;
+    double y_min = *turtle.starty;
+
+    //enum direction move = "right";
+    while(index < strlen(instruction_string)){
+        //set start point
+
+        //traverse steps to process each one
+        if (instruction_string[index] == 'f' || instruction_string[index] >= 'A' && instruction_string[index] <= 'Z'){
+
+            move_to = find_new_position(position, angle, step);
+            //draw line between start point and new point
+            G_rgb(1,1,1); //white
+            //Instead of drawing, we need to keep track of the max and min values:
+            //check to see if we have adjusted the x max/min
+            if(move_to.x > x_max){
+                x_max = move_to.x;
+            }
+            else if (move_to.x < x_min){
+                x_min = move_to.x;
+            }
+
+            //check to see if we have adjusted the y max/min
+            if(move_to.y > y_max){
+                y_max = move_to.y;
+            }
+            else if(move_to.y < y_min){
+                y_min = move_to.y;
+            }
+            //reset start point to new point
+            position.x = move_to.x;
+            position.y = move_to.y;
+        }
+        else if (instruction_string[index] == '+'){
+            //move counter clockwise
+            angle += angle_change;
+            angle = fmod(angle, (2*M_PI));
+        }
+        else if (instruction_string[index] == '-'){
+            //move clockwise
+            angle -= angle_change;
+            angle = fmod(angle, (2*M_PI));
+        }
+        index++;
+    }
+
+    ///use the min/max values against the window size to determine the scale factor
+    //First find how much each min/max overshoots the bounds of the window
+    double x_max_overshoot = x_max - s_width;
+    double x_min_overshoot = x_min - 0;
+    double y_max_overshoot = y_max - s_height;
+    double y_min_overshoot = y_min - 0;
+    char axis = 'x';
+    //whichever one is biggest will be what we want to base the scale factor on
+    double max_overshoot = x_max_overshoot;
+    if(x_min_overshoot > max_overshoot){
+        max_overshoot =  x_min_overshoot;
+    }
+    if(y_max_overshoot > max_overshoot){
+        max_overshoot = y_min_overshoot;
+        axis = 'y';
+    }
+    if(y_min_overshoot > max_overshoot){
+        max_overshoot = y_min_overshoot;
+        axis = 'y';
+    }
+
+    //scale factor will be the max / width or height of the screen
+    double scale_factor;
+    if(axis == 'x'){
+        scale_factor = max_overshoot / s_width;
+    }
+    else if (axis == 'y'){
+        scale_factor = max_overshoot / s_height;
+    }
+
+    //scale the distance by the scale_factor
+    *turtle.distance = *turle.distance * scale_factor;
+
+
+    //The center of the figure will be the midpoint of the max/min values
+    //Will be used in the translation step
+    double mid_x = (x_max + x_min) / 2;
+    double mid_y = (y_max + y_min) / 2;
+    double s_center_x = (s_wdith+1) / 2
+    double s_center_y = (s_height+1)/ 2
+
+
+    //Update the turtle struct with the recalculated values for startx, starty and distance
+}
+
 void test_turtle(){
     char array[] = {'f', '+', 'f', '+', 'f', 'f', '-', 'f'};
     double startx = 200;
@@ -228,6 +338,8 @@ void draw_flower(double startx, double starty, double distance){
             printf("Invalid input");
         }
 
+
+        //auto placer needs to simulate turtle
         turtle(instructions, startx, starty, distance);
         free(instructions);
 
