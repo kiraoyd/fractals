@@ -208,19 +208,22 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle){
     double y_max = turtle -> starty;
     double y_min = turtle->starty;
 
-    printf("starting xmax: %f, xmin %f, ymax %f, ymin %f", x_max, x_min, y_max, y_min);
+//TODO test line
+    //printf("starting xmax: %f, xmin %f, ymax %f, ymin %f", x_max, x_min, y_max, y_min);
 
-    //enum direction move = "right";
+    //simulate turtle
     while(index < strlen(instruction_string)){
 
         //traverse steps to process each one
         if (instruction_string[index] == 'f' || instruction_string[index] >= 'A' && instruction_string[index] <= 'Z'){
 
             move_to = find_new_position(position, angle, step);
-            //draw line between start point and new point
             G_rgb(1,0,0); //white
+
+            //TODO test line
+            //G_line(position.x, position.y, move_to.x, move_to.y);
+
             //Instead of drawing, we need to keep track of the max and min values:
-            G_line(position.x, position.y, move_to.x, move_to.y);
             //check to see if we have adjusted the x max/min
             if(move_to.x > x_max){
                 x_max = move_to.x;
@@ -253,8 +256,18 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle){
         index++;
     }
 
-    printf("xmax: %f, xmin %f, ymax %f, ymin %f", x_max, x_min, y_max, y_min);
+    //TODO test line
+    //printf("xmax: %f, xmin %f, ymax %f, ymin %f", x_max, x_min, y_max, y_min);
     char axis = 'x';
+
+    double largest_overshoot = x_max - x_min; //assume diff between x is largest
+    double y_dis = y_max - y_min;
+    if(y_dis > largest_overshoot){
+        largest_overshoot = y_dis;
+        axis = 'y';
+    }
+
+    /* TODO old code
     double largest_overshoot = x_min;
     if (x_max > largest_overshoot){
         largest_overshoot = x_max;
@@ -268,6 +281,7 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle){
         largest_overshoot = y_min;
         axis = 'y';
     }
+    */
 
 
     //scale factor will be the max / width or height of the screen
@@ -283,8 +297,9 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle){
         }
     }
 
-    printf("Largest overshoot: %f", largest_overshoot);
-    printf("Scale factor: %f", scale_factor);
+    //TODO test lines
+    //printf("Largest overshoot: %f", largest_overshoot);
+    //printf("Scale factor: %f", scale_factor);
     //scale the distance by the scale_factor, update turtle struct
     turtle->distance = turtle->distance * scale_factor;
 
@@ -294,23 +309,32 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle){
     //TODO, translation not working for the flower
     double mid_x = (x_max + x_min) / 2;
     double mid_y = (y_max + y_min) / 2;
-    G_rgb(1,0,0);
-    G_fill_circle(mid_x, mid_y, 50);
+
+    //TODO test lines
+    //G_rgb(1,0,0);
+    //G_fill_circle(mid_x, mid_y, 50);
+
     double s_center_x = (swidth+1) / 2;
     double s_center_y = (sheight+1)/ 2;
-    G_rgb(0,0,0);
-    G_fill_circle(s_center_x, s_center_y, 5);
-    printf("midx = %f, midy = %f", mid_x, mid_y);
+
+    //TODO test lines
+    //G_rgb(0,0,0);
+    //G_fill_circle(s_center_x, s_center_y, 5);
+    //printf("midx = %f, midy = %f", mid_x, mid_y);
 
     double change_x = s_center_x - mid_x;
     double change_y = s_center_y - mid_y;
-    printf("dx = %f, dy = %f", change_x, change_y);
+
+    //TODO test line
+    //printf("dx = %f, dy = %f", change_x, change_y);
 
     //calculate new start point, scale first!
     double new_start_x = (scale_factor* turtle->startx) + change_x;
     double new_start_y = (scale_factor* turtle->starty) + change_y;
-    G_rgb(0,0,1);
-    G_fill_circle(new_start_x, new_start_y, 10);
+
+    //TODO test lines
+    //G_rgb(0,0,1);
+    //G_fill_circle(new_start_x, new_start_y, 10);
 
     //Update the turtle struct with the recalculated values for startx, starty
     turtle->startx = new_start_x;
@@ -320,8 +344,8 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle){
 
 void test_turtle(){
     char array[] = {'f', '+', 'f', '+', 'f', 'f', '-', 'f'};
-    double startx = 200;
-    double starty = 200;
+    double startx = 50;
+    double starty = 50;
     double distance = 20;
     //test mine:
     struct Turtle_info info;
@@ -329,7 +353,7 @@ void test_turtle(){
     info.starty = starty;
     info.distance = distance;
     auto_placer(array, &info);
-    turtle(array, startx, starty, distance);
+    turtle(array, info.startx, info.starty, info.distance);
 }
 
 void test_davids(){
@@ -345,7 +369,7 @@ void test_davids(){
         adjusted.starty = starty;
         adjusted.distance = distance;
         auto_placer(davids_array, &adjusted);
-        turtle(davids_array, startx, starty, distance);
+        turtle(davids_array, adjusted.startx, adjusted.starty, distance);
 }
 
 void draw_flower(double startx, double starty, double distance){
@@ -371,7 +395,6 @@ void draw_flower(double startx, double starty, double distance){
             printf("Invalid input");
         }
 
-
         //auto placer needs to simulate turtle
         struct Turtle_info adjusted;
         adjusted.startx = startx;
@@ -393,12 +416,12 @@ int main(){
     G_clear () ;
 
     /* CODE HERE */
-    test_turtle();
+    //test_turtle();
     //test_davids();
     //test_builder();
 
     //draw_flower(200, 200, 10);
-    //draw_flower(400, 400, 20);
+    draw_flower(400, 400, 20);
 
 
     // BEGIN SETDOWN
@@ -408,17 +431,5 @@ int main(){
     //   G_save_image_to_file("demo.xwd") ;
     G_save_to_bmp_file("trees.bmp") ;
 
-
-/*
-    //Some reference code below:
-    char v[1000000];
-    char u[1000000];
-    u[0] = '\0'; v[0] = '\0'; //this makes u and v "empty" strings
-    int length = strlen(u); //returns a long in, %ld
-    strcpy(u, "dog"); //will overwrite what is there, and copy in "dog"
-    strcpy(v, "pig");
-    strcat(u,v);
-    strcpy(v,u);
-*/
     return 0;
 }

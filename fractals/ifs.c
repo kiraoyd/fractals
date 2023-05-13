@@ -5,6 +5,8 @@
 #include <math.h>
 #include <string.h>
 
+#define PI M_PI
+
 //globals
 double scale_x = 0.5;
 double scale_y = 0.5;
@@ -167,7 +169,7 @@ void carpet(){
             G_point(x*swidth, y*sheight);
         }
         else if (n > 2* (1.0/9.0)){
-            //Rule 7: scacle, then translate just y
+            //Rule 7: scale, then translate just y
             x = x* (1.0/3.0);
             y = y* (1.0/3.0);
             y = y + (2.0/3.0);
@@ -195,6 +197,150 @@ void carpet(){
     }
 }
 
+void initials(){
+//random number generator
+    double n;
+    double x, y;
+
+    double block_width = swidth;
+    double block_height = sheight / 3.0;
+    double pad = 2.0;
+
+    //start (x,y) at 0,0
+    x = 0.0;
+    y = 0.0;
+
+    G_rgb(1,1,1);
+    for (int i = 0; i<1000000; i++){
+        n = drand48();
+        if(n > 3.0* (1.0/4.0)){
+            //Rule 1: scale, rotate by adding 90 degrees to current angle, translate over and up by 1/10 the height/width
+            double scale_factor_x = 36.0/36.0;
+            double scale_factor_y = 2.0/16.0;
+
+            double theta_degrees = 90.0;
+            double theta_radians = theta_degrees * (PI/180.0);
+
+            //SCALE
+            x = x* scale_factor_x;
+            y = y* scale_factor_y;
+
+            //ROTATE
+            double temp = x*cos(theta_radians) - y*sin(theta_radians);
+            y = x* sin(theta_radians) + y*cos(theta_radians);
+            x = temp;
+
+            //TRANSLATE
+            double x_change = 2.0/36.0;
+            double y_change = 0.0/16.0;
+            x = x + x_change;
+            y = y + y_change;
+
+            G_rgb(1,1,0);
+            G_point(x* swidth, y*sheight);
+        }
+        else if(n > 2.0* (1.0/4.0)){
+            //Rule 2: scale, rotate by 45 degrees, translate by 15% of screen
+            double scale_factor_x = 6.0/36.0;
+            double scale_factor_y = 2.0/16.0;
+
+            double theta_degrees = 45.0;
+            double theta_radians = theta_degrees * (PI/180.0);
+
+            //SCALE
+            x = x* scale_factor_x;
+            y = y* scale_factor_y;
+
+            //ROTATE
+            double temp = x*cos(theta_radians) - y*sin(theta_radians);
+            y = x* sin(theta_radians) + y*cos(theta_radians);
+            x = temp;
+
+            //TRANSLATE
+            double x_change = 4.0/36.0;
+            double y_change = 8.0/16.0;
+            x = x + x_change;
+            y = y + y_change;
+
+            G_rgb(1,1,0);
+            G_point(x*swidth, y*sheight);
+        }
+        else if (n > 1.0* (1.0/4.0)){
+            //TODO dummy rule
+            double scale_factor_x = 16.0/36.0;
+            double scale_factor_y = 2.0/16.0;
+
+            double theta_degrees = 90.0;
+            double theta_radians = theta_degrees * (PI/180.0);
+
+            //SCALE
+            x = x* scale_factor_x;
+            y = y* scale_factor_y;
+
+            //ROTATE
+            double temp = x*cos(theta_radians) - y*sin(theta_radians);
+            y = x* sin(theta_radians) + y*cos(theta_radians);
+            x = temp;
+
+            //TRANSLATE
+            double x_change = 36.0/36.0;
+            double y_change = 0.0/16.0;
+
+            x = x + x_change;
+            y = y + y_change;
+
+            G_rgb(1,1,0);
+            G_point(x *swidth, y*sheight);
+
+
+        }
+        else{
+            //Rule 3: scale, rotate by subtracting 45 degrees to current angle, translate 10% over, 40% up
+            double scale_factor_x = 6.0/36.0;
+            double scale_factor_y = 2.0/16.0;
+
+            double theta_degrees = -45.0;
+            double theta_radians = theta_degrees * (PI/180.0);
+
+            //SCALE
+            x = x* scale_factor_x;
+            y = y* scale_factor_y;
+
+            //ROTATE
+            double temp = x*cos(theta_radians) - y*sin(theta_radians);
+            y = x* sin(theta_radians) + y*cos(theta_radians);
+            x = temp;
+
+            //TRANSLATE
+            double x_change = 2.0/36.0;
+            double y_change = 6.0/16.0;
+
+            x = x + x_change;
+            y = y + y_change;
+
+            G_rgb(1,1,0);
+            G_point(x *swidth, y*sheight);
+        }
+        //TODO make one more rule for a bar on the right
+/*
+        else if (n > 5* (1.0/9.0)){
+double nothing = 0;        }
+        else if (n > 4* (1.0/9.0)){
+double nothing = 0;        }
+        else if (n > 3* (1.0/9.0)){
+double nothing = 0;        }
+        else if (n > 2* (1.0/9.0)){
+double nothing = 0;        }
+        else if (n > 1* (1.0/9.0)){
+double nothing = 0;        }
+        else{
+double nothing = 0;
+
+    }
+    */
+}
+}
+
 int main(){
 
     G_init_graphics (swidth,sheight) ;  // interactive graphics
@@ -205,7 +351,8 @@ int main(){
 
     //draw_line();
     //fill_square();
-    carpet();
+    //carpet();
+    initials();
 
 
     // BEGIN SETDOWN
