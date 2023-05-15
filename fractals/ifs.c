@@ -242,9 +242,9 @@ void initials(){
             y = x* sin(theta_radians) + y*cos(theta_radians);
             x = temp;
 
-            //TRANSLATE
+            //TRANSLATE: we have to think of the x and y movement as being in the same units
             double x_change = 2.0/32.0;
-            double y_change = 0.0/16.0; //mama's height is 1/2 mama's width
+            double y_change = 0.0/32.0; //mama's height is 1/2 mama's width
             x = x + x_change;
             y = y + y_change;
             red++;
@@ -271,7 +271,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 4.0/32.0;
-            double y_change = 4.0/16.0; //mama's height is 1/2 of the screen height, so the translation moves up by 1/2 of 1/2
+            double y_change = 8.0/32.0; //mama's height is 1/2 of the screen height, so the translation moves up by 1/2 of 1/2
             x = x + x_change;
             y = y + y_change;
 
@@ -301,7 +301,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 2.0/32.0;
-            double y_change = 3.0/16.0;
+            double y_change = 6.0/32.0;
 
             x = x + x_change;
             y = y + y_change;
@@ -321,7 +321,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 12.0/32.0;
-            double y_change = 6.0/16.0;
+            double y_change = 12.0/32.0;
 
             x = x + x_change;
             y = y + y_change;
@@ -380,7 +380,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 18.0/32.0;
-            double y_change = 0.0/16.0;
+            double y_change = 0.0/32.0;
             x = x + x_change;
             y = y + y_change;
 
@@ -402,7 +402,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 18.0/32.0;
-            double y_change = 4.0/16.0;
+            double y_change = 8.0/32.0;
             x = x + x_change;
             y = y + y_change;
 
@@ -414,7 +414,7 @@ void initials(){
             //Rule 8:
             //Left bar on a
             double scale_factor_x = 8.0/32.0;
-            double scale_factor_y = 2.0/16.0;
+            double scale_factor_y = 4.0/32.0;
 
             double theta_degrees = 90.0;
             double theta_radians = theta_degrees * (PI/180.0);
@@ -442,7 +442,7 @@ void initials(){
             //Rule 9:
             //Upper bar on a
             double scale_factor_x = 5.0/32.0;
-            double scale_factor_y = 2.0/16.0;
+            double scale_factor_y = 4.0/32.0;
 
             //SCALE
             x = x* scale_factor_x;
@@ -470,7 +470,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 25.0/32.0;
-            double y_change = 1.0/16.0;
+            double y_change = 2.0/32.0;
             x = x + x_change;
             y = y + y_change;
 
@@ -498,7 +498,7 @@ void initials(){
 
             //TRANSLATE
             double x_change = 32.0/32.0;
-            double y_change = 0.5/16.0;
+            double y_change = 1.0/32.0;
             x = x + x_change;
             y = y + y_change;
 
