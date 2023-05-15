@@ -3,6 +3,7 @@
 #include  "FPToolkit.c"
 //#include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 
 #define PI 3.14159265
 
@@ -188,9 +189,6 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
         blossoms[(*index)] = p6;
         (*index)++;
 
-
-
-
     }
 
     depth -= 1;
@@ -200,17 +198,110 @@ void tree (struct Point p0, struct Point p1, double distance, double percent, do
     tree(p5, p6, distance, percent, depth, blossoms, index);
 }
 
-//TODO, doesn't quite work with the size of...
+void redraw_tree_no_blossoms (struct Point p0, struct Point p1, double distance, double percent, double depth){
+    if (depth == 0){
+         return;
+    }
+
+    //get the third point
+    struct Point p2 = calculate_point(p0, p1, distance, percent);
+
+    //draw triangle
+    G_rgb(1,0,0); //red
+    G_line(p0.x, p0.y, p2.x, p2.y);
+    G_rgb(0,1,0); //green
+    G_line(p2.x, p2.y, p1.x, p1.y);
+    G_rgb(1,0,1); //purple
+    G_line(p1.x, p1.y, p0.x, p0.y);
+    G_rgb(.588, 0.294, 0);
+    G_fill_triangle(p0.x, p0.y, p2.x, p2.y, p1.x, p1.y);
+
+    //draw squares off each edge: p0-p2, p2-p1, p0-p1
+
+    //-----------------------------//
+    //change x and y between p2 and p0
+    double change_x = p2.x - p0.x;
+    double change_y = p2.y - p0.y;
+
+    //point off p2
+    double p4x = p2.x - change_y;
+    double p4y = p2.y + change_x;
+    struct Point p4 = {p4x, p4y};
+
+    //point off p0
+    double p3x = p0.x - change_y;
+    double p3y = p0.y + change_x;
+    struct Point p3 = {p3x, p3y};
+
+    //Draw square off p0-p2
+    G_rgb(0.6, 0.32, 0.24);
+    G_line(p2.x, p2.y, p4.x, p4.y);
+    G_line(p0.x, p0.y, p3.x, p3.y);
+    G_line(p3.x, p3.y, p4.x, p4.y);
+
+    //-----------------------------//
+    //change x and y between p2 and p1
+    change_x = p1.x - p2.x;
+    change_y = p1.y - p2.y;
+
+    //point off p2
+    double p5x = p2.x - change_y;
+    double p5y = p2.y + change_x;
+    struct Point p5 = {p5x, p5y};
+
+    //point off p1
+    double p6x = p1.x - change_y;
+    double p6y = p1.y + change_x;
+    struct Point p6 = {p6x, p6y};
+
+    //draw square off p2-p1
+     G_rgb(0.6, 0.32, 0.24);
+    G_line(p1.x, p1.y, p6.x, p6.y);
+    G_line(p2.x, p2.y, p5.x, p5.y);
+    G_line(p5.x, p5.y, p6.x, p6.y);
+
+
+    //-----------------------------//
+    //change x and y between p0 and p1
+    change_x = p0.x - p1.x;
+    change_y = p0.y - p1.y;
+
+    //point off p0
+    double p7x = p0.x - change_y;
+    double p7y = p0.y + change_x;
+    struct Point p7 = {p7x, p7y};
+
+    //point off p1
+    double p8x = p1.x - change_y;
+    double p8y = p1.y + change_x;
+    struct Point p8 = {p8x, p8y};
+
+    //Draw square off p0-p1
+    G_rgb(0.6, 0.32, 0.24);
+    G_line(p0.x, p0.y, p7.x, p7.y);
+    G_line(p1.x, p1.y, p8.x, p8.y);
+    G_line(p7.x, p7.y, p8.x, p8.y);
+    //-----------------------------//
+
+
+    depth -= 1;
+
+    //call children with p3-p4 and p5-p6
+    redraw_tree_no_blossoms(p3,p4, distance, percent, depth);
+    redraw_tree_no_blossoms(p5, p6, distance, percent, depth);
+}
+
+//TODO, doesn't quite work as a stand alone function for some reason
 int increase_size(struct Point blossoms[]){
     int radius = 5;
-    while (radius < 10){
+    while (radius < 15){
         int count = 0;
        while(count < (sizeof(*blossoms) / sizeof(struct Point))){
             G_fill_circle(blossoms[count].x, blossoms[count].y, radius);
             count++;
        }
        G_wait_key();
-       radius= radius + 2;
+       radius = radius + 1;
     }
 
 }
@@ -273,8 +364,8 @@ int main(){
      int *index2 = &index_val2;
 
     //calculate and draw trees recursively
-    tree(p0, p1, distance, percent, depth, blossoms, index);
-    tree(p2,p3, distance2, percent2, depth2, blossoms2, index2);
+    tree(p0, p1, distance, percent, depth, blossoms, index); //front
+    tree(p2,p3, distance2, percent2, depth2, blossoms2, index2); //back
 
     //animate blossoms on front tree
    int radius = 5;
@@ -285,7 +376,7 @@ int main(){
             count++;
        }
        G_wait_key();
-       radius= radius + 2;
+       radius++;
     }
 
     //animate blossoms on back tree
@@ -297,19 +388,67 @@ int main(){
             count++;
        }
        G_wait_key();
-       radius= radius + 2;
+       radius++;
     }
 
-    // TODO animate blossoms falling from front tree
-    int blossom = 0;
-    while(index < (sizeof(blossoms) / sizeof(struct Point))){
-        while(blossoms[blossom].y > 0){
-            blossoms[index].y--;
-            G_fill_circle(blossoms[blossom].x, blossoms[blossom].y, radius);
+
+    //TODO can we make the blossoms fall at different rates?
+    //animate blossoms falling from front tree
+    bool hanging = true;
+    //for each blossom, until we reach the ground redraw the blossoms at a lower point
+    while(hanging){
+        G_rgb(0.3, 0.3, 0.3);
+        G_clear();
+        redraw_tree_no_blossoms(p0, p1, distance, percent, depth);
+        hanging = false;
+        int i = 0;
+        while(i  < (sizeof(blossoms) / sizeof(struct Point))){
+            blossoms[i].y = blossoms[i].y - 3;
+            i++;
+            if(blossoms[i].y > 0){
+                hanging = true;
+            }
         }
-        blossom++;
+        //Draw all blossoms at once
+       int blossom = 0;
+       while(blossom  < (sizeof(blossoms) / sizeof(struct Point))){
+            G_rgb(0.98,0.85,0.86);
+             G_fill_circle(blossoms[blossom].x, blossoms[blossom].y, radius);
+             blossom++;
+       }
+
+        G_wait_key();
     }
 
+/* TODO this doesn't really work well
+    //animate blossoms falling from back tree
+    bool hanging2 = true;
+    //for each blossom, until we reach the ground redraw the blossoms at a lower point
+    while(hanging2){
+        G_rgb(0.3, 0.3, 0.3);
+        G_clear();
+        redraw_tree_no_blossoms(p0, p1, distance, percent, depth);
+        redraw_tree_no_blossoms(p2,p3, distance2, percent2, depth2);
+        hanging2 = false;
+        int i = 0;
+        while(i  < (sizeof(blossoms2) / sizeof(struct Point))){
+            blossoms2[i].y--;
+            i++;
+            if(blossoms2[i].y > 0){
+                hanging2 = true;
+            }
+        }
+        //Draw all blossoms at once
+       int blossom = 0;
+       while(blossom  < (sizeof(blossoms2) / sizeof(struct Point))){
+            G_rgb(0.98,0.85,0.86);
+             G_fill_circle(blossoms2[blossom].x, blossoms2[blossom].y, radius);
+             blossom++;
+       }
+
+        G_wait_key();
+    }
+*/
 
 
 
