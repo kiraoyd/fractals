@@ -11,8 +11,8 @@
 double scale_x = 0.5;
 double scale_y = 0.5;
 double translate = 0.5;
-double swidth = 400;
-double sheight = 200;
+double swidth = 600;
+double sheight = 1000;
 
 void draw_line(){
 //random number generator
@@ -227,8 +227,8 @@ void initials(){
         if(n > 10.0* (1.0/11.0)){
             //Rule 1: scale, rotate by adding 90 degrees to current angle, translate over and up by 1/10 the height/width
             //Left vertical of K
-            double scale_factor_x = 36.0/36.0; //full width ratio
-            double scale_factor_y = 2.0/16.0;
+            double scale_factor_x = 16.0/32.0; //the bar is 1/2 of mama's width
+            double scale_factor_y = 2.0/16.0; //the bar is 2/16 of mama's height
 
             double theta_degrees = 90.0;
             double theta_radians = theta_degrees * (PI/180.0);
@@ -243,8 +243,8 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 2.0/36.0;
-            double y_change = 0.0/16.0;
+            double x_change = 2.0/32.0;
+            double y_change = 0.0/16.0; //mama's height is 1/2 mama's width
             x = x + x_change;
             y = y + y_change;
             red++;
@@ -254,8 +254,8 @@ void initials(){
         else if(n > 9.0* (1.0/11.0)){
             //Rule 2: scale, rotate by 45 degrees, translate by 15% of screen
             //Upper rotated bar on K
-            double scale_factor_x = 9.0/36.0;
-            double scale_factor_y = 2.0/16.0;
+            double scale_factor_x = (6.0*sqrt(2.0))/32.0;
+            double scale_factor_y = (2.0*sqrt(2.0))/16.0;
 
             double theta_degrees = 45.0;
             double theta_radians = theta_degrees * (PI/180.0);
@@ -270,13 +270,13 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 4.0/36.0;
-            double y_change = 8.0/16.0;
+            double x_change = 4.0/32.0;
+            double y_change = 4.0/16.0; //mama's height is 1/2 of the screen height, so the translation moves up by 1/2 of 1/2
             x = x + x_change;
             y = y + y_change;
 
-            int g = 128/255;
-            G_rgb(1,g,0); //Orange
+            int g = 128.0/255.0;
+            G_rgb(0.8,0.8, 0.8); //Orange
             orange++;
             G_point(x*swidth, y*sheight);
         }
@@ -284,8 +284,8 @@ void initials(){
         else if (n > 8.0* (1.0/11.0)){
             //Rule 3: scale, rotate by subtracting 45 degrees to current angle, translate 10% over, 40% up
             //Bottom tilted bar on K
-            double scale_factor_x = 9.0/36.0;
-            double scale_factor_y = 2.0/16.0;
+            double scale_factor_x = (6.0*sqrt(2.0))/32.0;
+            double scale_factor_y = (2.0*sqrt(2))/16.0;
 
             double theta_degrees = -45.0;
             double theta_radians = theta_degrees * (PI/180.0);
@@ -300,8 +300,8 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 2.0/36.0;
-            double y_change = 6.0/16.0;
+            double x_change = 2.0/32.0;
+            double y_change = 3.0/16.0;
 
             x = x + x_change;
             y = y + y_change;
@@ -312,7 +312,7 @@ void initials(){
         }
         else if (n > 7.0* (1.0/11.0)){
             //Rule 4: dot on I
-            double scale_factor_x = 2.0/36.0;
+            double scale_factor_x = 2.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
             //SCALE
@@ -320,13 +320,13 @@ void initials(){
             y = y* scale_factor_y;
 
             //TRANSLATE
-            double x_change = 12.0/36.0;
-            double y_change = 12.0/16.0;
+            double x_change = 12.0/32.0;
+            double y_change = 6.0/16.0;
 
             x = x + x_change;
             y = y + y_change;
 
-            G_rgb(128/255,1,0); //Green
+            G_rgb(128.0/255.0,1,0); //Green
             green++;
             G_point(x *swidth, y*sheight);
 
@@ -335,7 +335,7 @@ void initials(){
         else if(n > 6.0* (1.0/11.0)){
             //Rule 5:
             //Bar on I
-            double scale_factor_x = 10.0/36.0;
+            double scale_factor_x = 10.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
             double theta_degrees = 90.0;
@@ -351,8 +351,8 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 14.0/36.0;
-            double y_change = 0.0/16.0;
+            double x_change = 14.0/32.0;
+            double y_change = 0.0/32.0;
             x = x + x_change;
             y = y + y_change;
 
@@ -363,8 +363,8 @@ void initials(){
         else if(n > 5.0* (1.0/11.0)){
             //Rule 6:
             //UBar on R
-            double scale_factor_x = 10.0/36.0;
-            double scale_factor_y = 2.0/16.0;
+            double scale_factor_x = 10.0/32.0;
+            double scale_factor_y = 2.0/32.0;
 
             double theta_degrees = 90.0;
             double theta_radians = theta_degrees * (PI/180.0);
@@ -379,19 +379,19 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 18.0/36.0;
+            double x_change = 18.0/32.0;
             double y_change = 0.0/16.0;
             x = x + x_change;
             y = y + y_change;
 
-            G_rgb(0,1,128/255); //Spring Green
+            G_rgb(0,1,128.0/255.0); //Spring Green
             spring++;
             G_point(x*swidth, y*sheight);
         }
         else if(n > 4.0* (1.0/11.0)){
             //Rule 7:
             //Upper bar on r
-            double scale_factor_x = 3.0/36.0;
+            double scale_factor_x = 3.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
 
@@ -401,8 +401,8 @@ void initials(){
 
 
             //TRANSLATE
-            double x_change = 18.0/36.0;
-            double y_change = 8.0/16.0;
+            double x_change = 18.0/32.0;
+            double y_change = 4.0/16.0;
             x = x + x_change;
             y = y + y_change;
 
@@ -413,7 +413,7 @@ void initials(){
         else if(n > 3.0* (1.0/11.0)){
             //Rule 8:
             //Left bar on a
-            double scale_factor_x = 8.0/36.0;
+            double scale_factor_x = 8.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
             double theta_degrees = 90.0;
@@ -429,8 +429,8 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 25.0/36.0;
-            double y_change = 2.0/16.0;
+            double x_change = 25.0/32.0;
+            double y_change = 1.0/16.0;
             x = x + x_change;
             y = y + y_change;
 
@@ -441,7 +441,7 @@ void initials(){
         else if(n > 2.0* (1.0/11.0)){
             //Rule 9:
             //Upper bar on a
-            double scale_factor_x = 5.0/36.0;
+            double scale_factor_x = 5.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
             //SCALE
@@ -449,19 +449,19 @@ void initials(){
             y = y* scale_factor_y;
 
             //TRANSLATE
-            double x_change = 25.0/36.0;
-            double y_change = 8.0/16.0;
+            double x_change = 25.0/32.0;
+            double y_change = 4.0/16.0;
             x = x + x_change;
             y = y + y_change;
 
-            G_rgb(1,10,1); //Violet
+            G_rgb(1,0,1); //Violet
             violet++;
             G_point(x*swidth, y*sheight);
         }
         else if(n > 1.0* (1.0/11.0)){
             //Rule 10:
             //Lower bar on a
-            double scale_factor_x = 5.0/36.0;
+            double scale_factor_x = 5.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
             //SCALE
@@ -469,19 +469,19 @@ void initials(){
             y = y* scale_factor_y;
 
             //TRANSLATE
-            double x_change = 25.0/36.0;
-            double y_change = 2.0/16.0;
+            double x_change = 25.0/32.0;
+            double y_change = 1.0/16.0;
             x = x + x_change;
             y = y + y_change;
 
-            G_rgb(1,0,128/255); //magenta
+            G_rgb(1,0,128.0/255.0); //magenta
             magenta++;
             G_point(x*swidth, y*sheight);
         }
         else {
             //Rule 11:
             //Right bar on a
-            double scale_factor_x = 9.0/36.0;
+            double scale_factor_x = 9.0/32.0;
             double scale_factor_y = 2.0/16.0;
 
             double theta_degrees = 90.0;
@@ -497,12 +497,12 @@ void initials(){
             x = temp;
 
             //TRANSLATE
-            double x_change = 34.0/36.0;
-            double y_change = 1.0/16.0;
+            double x_change = 32.0/32.0;
+            double y_change = 0.5/16.0;
             x = x + x_change;
             y = y + y_change;
 
-            G_rgb(128/255,0,1); //purple
+            G_rgb(128.0/255.0,0,1); //purple
             purple++;
             G_point(x*swidth, y*sheight);
         }
