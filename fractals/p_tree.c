@@ -62,6 +62,8 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
 
 }
 
+//TODO not really needed, just for testing
+/*
 //given p0 and p1, find point off p1 that lies along the same line, at a distance equal to dis(p0,p1)
 //Used in testing to ensure we are doing the math right
 struct Point find_point(struct Point p0, struct Point p1){
@@ -74,6 +76,7 @@ struct Point find_point(struct Point p0, struct Point p1){
 
     return p_off_p1;
 }
+*/
 
 void tree (struct Point p0, struct Point p1, double distance, double percent, double depth, struct Point blossoms[], int *index){
     if (depth == 0){
