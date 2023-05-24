@@ -30,7 +30,7 @@ struct Point calculate_point(struct Point p0, struct Point p1, double distance, 
     G_line(pm.x, pm.y, p1.x, p1.y);
     */
 
-    //find the point, P3, directly above pm
+    //find the point, P3, directly above pm by the distance between p0 and p1
     //We will calculate p2, the needed point, using this point
     //It will be back from pm by change_y, and up by change_x
     double x3 = pm.x - change_y;
