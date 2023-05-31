@@ -134,7 +134,6 @@ int draw()
 }
 
 
-
 int print_object()
 {
   int i ;
@@ -169,6 +168,179 @@ int save_line(double xs, double ys, double zs,
 }
 
 
+//a cube with a center at (0,0,0) will consist of 8 points, which will be all permutations of 1 and -1 as (x,y,z)
+void build_cube()
+{
+    N = 0; //reset to the beginning of the global arrays
+
+    //manually enter the 8 point based line segments to the x,y,z array
+    //C to D, starting at C
+    X[N] = -1; Y[N] = -1; Z[N] = -1; //C
+    N++;
+    X[N] = -1; Y[N] = 1; Z[N] = -1; //D
+    N++;
+
+    //D to E,  starting at D
+    X[N] = -1; Y[N] = 1; Z[N] = -1;   //D
+    N++;
+    X[N] = -1; Y[N] = 1; Z[N] = 1;  //E
+    N++;
+
+    //E to F, starting at E
+    X[N] = -1; Y[N] = 1; Z[N] = 1; //E
+    N++;
+    X[N] = 1; Y[N] = 1; Z[N] = 1;  //F
+    N++;
+
+    //F to A, starting at F
+    X[N] = 1; Y[N] = 1; Z[N] = 1;  //F
+    N++;
+    X[N] = 1; Y[N] = 1; Z[N] = -1;  //A
+    N++;
+
+
+    //A to D, starting at A
+    X[N] = 1; Y[N] = 1; Z[N] = -1;  //A
+    N++;
+    X[N] = -1; Y[N] = 1; Z[N] = -1;  //D
+    N++;
+
+    //A to B
+    X[N] = 1; Y[N] = 1; Z[N] = -1;  //A
+    N++;
+    X[N] = 1; Y[N] = -1; Z[N] = -1; //B
+    N++;
+
+    //C to B
+    X[N] = -1; Y[N] = -1; Z[N] = -1; //C
+    N++;
+    X[N] = 1; Y[N] = -1; Z[N] = -1;  //B
+    N++;
+
+    //B to G
+    X[N] = 1; Y[N] = -1; Z[N] = -1;  //B
+    N++;
+    X[N] = 1; Y[N] = -1; Z[N] = 1; //G
+    N++;
+
+    //G to F
+    X[N] = 1; Y[N] = -1; Z[N] = 1; //G
+    N++;
+    X[N] = 1; Y[N] = 1; Z[N] = 1; //F
+    N++;
+
+    //E to H
+    X[N] = -1; Y[N] = 1; Z[N] = 1;  //E
+    N++;
+    X[N] = -1; Y[N] = -1; Z[N] = 1;  //H
+    N++;
+
+    //H to G
+    X[N] = -1; Y[N] = -1; Z[N] = 1;  //H
+    N++;
+    X[N] = 1; Y[N] = -1; Z[N] = 1; //G
+    N++;
+
+    //H to C
+    X[N] = -1; Y[N] = -1; Z[N] = 1;  //H
+    N++;
+    X[N] = -1; Y[N] = -1; Z[N] = -1; //C
+    N++;
+
+}
+
+struct Point {
+    double x, y;
+};
+
+struct Point get_carpet_point(){
+//random number generator
+    double n;
+
+    //start (x,y) at 0,0
+    struct Point point = {0,0};
+
+    double k = (1/9);
+    printf("%f ", k);
+
+    G_rgb(1,1,1);
+    for (int i = 0; i<1000000; i++){
+        n = drand48();
+        if(n > 8* (1.0/9.0)){
+            //Rule 1: scale only, by 0.3
+            //All other rules are in relation to this one (where we are after scaling)
+            point.x = point.x * (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+
+        }
+        else if(n > 7* (1.0/9.0)){
+            //Rule 2: scale, then translate x only
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.x = point.x + (1.0/3.0);
+        }
+        else if(n > 6* (1.0/9.0)){
+            //Rule 3: scale, then translate both x only, by 2/3
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.x = point.x + (2.0/3.0);
+        }
+        else if (n > 5* (1.0/9.0)){
+            //Rule 4: scacle, then translate just y
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.y = point.y + (1.0/3.0);
+        }
+        else if (n > 4* (1.0/9.0)){
+            //Rule 5: scacle, then translate x and
+            /*
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (1.0/3.0);
+            y = y + (1.0/3.0);
+            G_rgb(1,0,0);
+            G_point(x*swidth, y*sheight);
+            */
+            double nothing = 0;
+        }
+        else if (n > 3* (1.0/9.0)){
+            //Rule 6: scacle, then translate x and y
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.x = point.x + (2.0/3.0);
+            point.y = point.y + (1.0/3.0);
+        }
+        else if (n > 2* (1.0/9.0)){
+            //Rule 7: scale, then translate just y
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.y = point.y + (2.0/3.0);
+        }
+        else if (n > 1* (1.0/9.0)){
+            //Rule 8: scacle, then translate x and y
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.x = point.x + (1.0/3.0);
+            point.y = point.y + (2.0/3.0);
+        }
+        else{
+            //Rule 9: scacle, then translate x and y
+            point.x = point.x* (1.0/3.0);
+            point.y = point.y* (1.0/3.0);
+            point.x = point.x + (2.0/3.0);
+            point.y = point.y + (2.0/3.0);
+        }
+    }
+    return point;
+}
+
+void buid_sponge()
+{
+
+    N = 0;
+    //TODO how is this gonna work actually....
+}
+
 
 //this just creates the points x,y,z that make up the pyramid
 int build_pyramid()
@@ -193,13 +365,6 @@ int build_pyramid()
 
 }
 
-
-
-
-
-
-
-
 int test_pyramid()
 {
   G_init_graphics(Wsize,Wsize) ;
@@ -215,7 +380,40 @@ int test_pyramid()
   G_wait_key() ;
 }
 
+void test_cube()
+{
+  G_init_graphics(Wsize,Wsize) ;
+  G_rgb(0,0,0) ;
+  G_clear() ;
+  G_rgb(0,1,0) ;
 
+  build_cube() ;
+  project(5,45) ;
+  draw() ;
+  print_object() ;
+
+  G_wait_key() ;
+}
+
+
+int test_cube_rotate()
+{
+  //  G_choose_repl_display() ; // not too bad as a repl movie
+  G_init_graphics(Wsize,Wsize) ;
+
+  build_cube() ;
+
+  while (1) {
+    G_rgb(0,0,0) ;
+    G_clear() ;
+    G_rgb(0,1,0) ;
+    project(3,45) ;
+    draw() ;
+    rotate_y(3) ;
+    if (G_wait_key() == 'q') { break ; }
+  }
+
+}
 
 
 int test_pyramid_rotate()
@@ -242,6 +440,7 @@ int test_pyramid_rotate()
 
 int main()
 {
-  test_pyramid() ;
-  //  test_pyramid_rotate() ;
+  //test_cube() ;
+  //test_cube_rotate();
+    test_pyramid_rotate() ;
 }

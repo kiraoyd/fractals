@@ -166,7 +166,7 @@ void turtle (char instruction_string[], double startx, double starty, int distan
 
             move_to = find_new_position(position, angle, step);
             //draw line between start point and new point
-            G_rgb(1,1,1); //white
+            G_rgb(255.0/255.0,182.0/255.0,193.0/255.0); //pink
             G_line(position.x, position.y, move_to.x, move_to.y);
             //reset start point to new point
             position.x = move_to.x;
@@ -387,6 +387,7 @@ int main(){
     //test_davids();
     //test_builder();
 
+    //TOOD make a nice background for the flower here, maybe a gradiant?
     draw_flower(400.0, 200.0, 1.0);
 
 
