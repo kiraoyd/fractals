@@ -1,4 +1,4 @@
-/* To run: cc  spiro.c   -lm  -lX11 */
+/* To run: cc  koch.c   -lm  -lX11 */
 //Citation for rules: http://paulbourke.net/fractals/lsys/
 
 #include  "FPToolkit.c"
@@ -132,15 +132,15 @@ void turtle (char instruction_string[], double startx, double starty, int distan
     position.x = startx;
     position.y = starty;
 
-    //pink
-    double r_for_pink = 255.0/255.0;
-    double g_for_pink= 182.0/255.0;
-    double b_for_pink = 193.0/255.0;
+    //hot pink
+    double r_for_pink = 252.0/255.0;
+    double g_for_pink= 3.0/255.0;
+    double b_for_pink = 207.0/255.0;
 
-    //blue
-    double r_for_blue = 52.0/255.0;
-    double g_for_blue = 82.0/255.0;
-    double b_for_blue = 235.0/255.0;
+    //tourqoise blue
+    double r_for_blue = 3.0/255.0;
+    double g_for_blue = 236.0/255.0;
+    double b_for_blue = 252.0/255.0;
 
     //orange
     double r_for_orange = 235.0/255.0;
@@ -148,9 +148,9 @@ void turtle (char instruction_string[], double startx, double starty, int distan
     double b_for_orange = 52.0/255.0;
 
     //start blending from blue
-    double r = r_for_blue;
-    double g = g_for_blue;
-    double b = b_for_blue;
+    double r = r_for_pink;
+    double g = g_for_pink;
+    double b = b_for_pink;
 
     double blend_factor = 0;  //0 indicates closer to blue, 1 closer to orange
     double radius = 2;
@@ -163,9 +163,9 @@ void turtle (char instruction_string[], double startx, double starty, int distan
             move_to = find_new_position(position, angle, step);
 
             //blend r, g, b values
-            r = (1-blend_factor) * r_for_blue + blend_factor * r_for_orange;
-            g = (1-blend_factor) * g_for_blue + blend_factor * g_for_orange;
-            b = (1-blend_factor) * b_for_blue + blend_factor * b_for_orange;
+            r = (1-blend_factor) * r_for_pink + blend_factor * r_for_blue;
+            g = (1-blend_factor) * g_for_pink + blend_factor * g_for_blue;
+            b = (1-blend_factor) * b_for_pink + blend_factor * b_for_blue;
             blend_factor += 0.05;
 
             G_rgb(r,g,b);
@@ -311,13 +311,12 @@ void auto_placer (char instruction_string[], struct Turtle_info *turtle, double 
 
 
 
-void draw_cross(double startx, double starty, double distance, double angle_degree, int depth){
-        //make a test grammar, at a depth of 10 this one makes a flower
+void draw_koch(double startx, double starty, double distance, double angle_degree, int depth){
         struct Grammar my_rules;
-        const char* axiom = "F+F+F+F";
+        const char* axiom = "F";
 
         my_rules.rules[0].var = 'F';
-        strcpy(my_rules.rules[0].rule, "F+F-F-FF+F+F-F");
+        strcpy(my_rules.rules[0].rule, "F+F--F+F");
         strcpy(my_rules.axiom, axiom);
 
         char* instructions = malloc(INSTRUCTIONS_MAX*sizeof(char));
@@ -357,12 +356,12 @@ int main(){
     G_init_graphics (swidth,sheight) ;  // interactive graphics
     char frame_name[FRAME_SAVE]; //holds the frame_name
     int frames = FRAME_SAVE;
-    int depth = 2;
-    double angle = 0;
-    int target = 360;
+    int depth = 0;
+    double angle = 60.0;
+    int target = 10;
     int count = 1;
     double distance = 1.0;
-    while(angle < target){
+    while(depth < target){
         sprintf(frame_name, "img%04d.bmp", count); //create a sequential framing scheme for the mpeg
         // clear the screen in a given color
         G_rgb (0.3, 0.3, 0.3) ; // dark gray
@@ -370,12 +369,12 @@ int main(){
         G_clear () ;
 
         /* CODE HERE */
-        draw_cross(400.0, 200.0, distance, angle, depth);
+        draw_koch(400.0, 200.0, distance, angle, depth);
         //TODO how to draw the angle to the screen
-        angle++;
+        depth++;
         count++;
-        //G_save_to_bmp_file(frame_name);
-        G_wait_key();
+        G_save_to_bmp_file(frame_name);
+        //G_wait_key();
     }
 
     // BEGIN SETDOWN

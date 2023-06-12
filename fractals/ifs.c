@@ -664,8 +664,8 @@ int main(){
 
     //draw_line();
     //fill_square();
-    //carpet();
-    carpet_lights_out();
+    carpet();
+    //carpet_lights_out();
     //initials();
 
 

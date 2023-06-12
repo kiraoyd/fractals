@@ -8,8 +8,8 @@
 const int RULE_MAX = 100; //up to 100 characters in any rule
 const int RULE_NUM = 30; //up to 30 rules in any grammar
 const int INSTRUCTIONS_MAX = 1000000; //max characters in one instruction string
-const double swidth = 400.0;
-const double sheight = 400.0;
+const double swidth = 800.0;
+const double sheight = 800.0;
 
 struct Point {
     double x, y;
