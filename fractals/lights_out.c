@@ -27,122 +27,121 @@ void lights_out_rules(double gradiant, int section){
 
     //mod the frame count by 8 (number of rules) to switch between each rule each frame
     int marker = (section % 8) + 1;
-
-        for (int i = 0; i<1000000; i++){
-            n = drand48();
-            if(n > 8* (1.0/9.0)){
-                //Rule 1: scale only, by 0.3
-                //All other rules are in relation to this one (where we are after scaling)
-                x = x * (1.0/3.0);
-                y = y* (1.0/3.0);
-                if(marker == 1){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(1*gradiant,1*gradiant,0*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
+    for (int i = 0; i<1000000; i++){
+        n = drand48();
+        if(n > 8* (1.0/9.0)){
+            //Rule 1: scale only, by 0.3
+            //All other rules are in relation to this one (where we are after scaling)
+            x = x * (1.0/3.0);
+            y = y* (1.0/3.0);
+            if(marker == 1){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(1*gradiant,1*gradiant,0*gradiant);
             }
-            else if(n > 7* (1.0/9.0)){
-                //Rule 2: scale, then translate x only
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                x = x + (1.0/3.0);
-                if(marker == 2){
-                    G_rgb(1,1,1);
-                }else {
-                    G_rgb(1*gradiant,0.75*gradiant,0.25*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-
-            }
-            else if(n > 6* (1.0/9.0)){
-                //Rule 3: scale, then translate both x only, by 2/3
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                x = x + (2.0/3.0);
-                if(marker == 3){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(1*gradiant,0*gradiant,.75*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-            }
-            else if (n > 5* (1.0/9.0)){
-                //Rule 4: scacle, then translate just y
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                y = y + (1.0/3.0);
-                if(marker == 8){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(0*gradiant,0.8*gradiant,1*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-            }
-            else if (n > 4* (1.0/9.0)){
-                //Rule 5: scacle, then translate x and
-                /*
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                x = x + (1.0/3.0);
-                y = y + (1.0/3.0);
-                G_rgb(1,0,0);
-                G_point(x*swidth, y*sheight);
-                */
-                double nothing = 0;
-            }
-            else if (n > 3* (1.0/9.0)){
-                //Rule 6: scacle, then translate x and y
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                x = x + (2.0/3.0);
-                y = y + (1.0/3.0);
-                if(marker == 4){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(0*gradiant,1*gradiant,0*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-            }
-            else if (n > 2* (1.0/9.0)){
-                //Rule 7: scale, then translate just y
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                y = y + (2.0/3.0);
-                if(marker == 7){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(0.6*gradiant,0.6*gradiant,0*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-            }
-            else if (n > 1* (1.0/9.0)){
-                //Rule 8: scacle, then translate x and y
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                x = x + (1.0/3.0);
-                y = y + (2.0/3.0);
-                if(marker == 6){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(1*gradiant,0*gradiant,0*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-            }
-            else{
-                //Rule 9: scacle, then translate x and y
-                x = x* (1.0/3.0);
-                y = y* (1.0/3.0);
-                x = x + (2.0/3.0);
-                y = y + (2.0/3.0);
-                if(marker == 5){
-                    G_rgb(1,1,1);
-                } else{
-                    G_rgb(0*gradiant,0*gradiant,1*gradiant);
-                }
-                G_point(x*swidth, y*sheight);
-            }
+            G_point(x*swidth, y*sheight);
         }
+        else if(n > 7* (1.0/9.0)){
+            //Rule 2: scale, then translate x only
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (1.0/3.0);
+            if(marker == 2){
+                G_rgb(1,1,1);
+            }else {
+                G_rgb(1*gradiant,0.75*gradiant,0.25*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+
+        }
+        else if(n > 6* (1.0/9.0)){
+            //Rule 3: scale, then translate both x only, by 2/3
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (2.0/3.0);
+            if(marker == 3){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(1*gradiant,0*gradiant,.75*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+        }
+        else if (n > 5* (1.0/9.0)){
+            //Rule 4: scacle, then translate just y
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            y = y + (1.0/3.0);
+            if(marker == 8){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(0*gradiant,0.8*gradiant,1*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+        }
+        else if (n > 4* (1.0/9.0)){
+            //Rule 5: scacle, then translate x and
+            /* comment out to create the carpet
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (1.0/3.0);
+            y = y + (1.0/3.0);
+            G_rgb(1,0,0);
+            G_point(x*swidth, y*sheight);
+            */
+            double nothing = 0;
+        }
+        else if (n > 3* (1.0/9.0)){
+            //Rule 6: scacle, then translate x and y
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (2.0/3.0);
+            y = y + (1.0/3.0);
+            if(marker == 4){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(0*gradiant,1*gradiant,0*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+        }
+        else if (n > 2* (1.0/9.0)){
+            //Rule 7: scale, then translate just y
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            y = y + (2.0/3.0);
+            if(marker == 7){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(0.6*gradiant,0.6*gradiant,0*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+        }
+        else if (n > 1* (1.0/9.0)){
+            //Rule 8: scacle, then translate x and y
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (1.0/3.0);
+            y = y + (2.0/3.0);
+            if(marker == 6){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(1*gradiant,0*gradiant,0*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+        }
+        else{
+            //Rule 9: scacle, then translate x and y
+            x = x* (1.0/3.0);
+            y = y* (1.0/3.0);
+            x = x + (2.0/3.0);
+            y = y + (2.0/3.0);
+            if(marker == 5){
+                G_rgb(1,1,1);
+            } else{
+                G_rgb(0*gradiant,0*gradiant,1*gradiant);
+            }
+            G_point(x*swidth, y*sheight);
+        }
+    }
 }
 
 

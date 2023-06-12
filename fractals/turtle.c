@@ -158,7 +158,6 @@ void turtle (char instruction_string[], double startx, double starty, int distan
     position.x = startx;
     position.y = starty;
 
-    //enum direction move = "right";
     while(index < strlen(instruction_string)){
         //set start point
         //traverse steps to process each one
@@ -396,7 +395,7 @@ int main(){
     key =  G_wait_key() ; // pause so user can see results
 
     //   G_save_image_to_file("demo.xwd") ;
-    G_save_to_bmp_file("trees.bmp") ;
+    G_save_to_bmp_file("turtle.bmp") ;
 
     return 0;
 }
