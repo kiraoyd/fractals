@@ -352,12 +352,136 @@ void draw_cross(double startx, double starty, double distance, double angle_degr
 
 }
 
+void draw_triangle(double startx, double starty, double distance, double angle_degree, int depth){
+        //make a test grammar, at a depth of 10 this one makes a flower
+        struct Grammar my_rules;
+        const char* axiom = "F+F+F";
+
+        my_rules.rules[0].var = 'F';
+        strcpy(my_rules.rules[0].rule, "F-F+F");
+        strcpy(my_rules.axiom, axiom);
+
+        char* instructions = malloc(INSTRUCTIONS_MAX*sizeof(char));
+        int success = builder(my_rules, depth, instructions);
+        if(success >= 0){
+            int index = 0;
+            while (index < strlen(instructions)){
+                //printf("%c", instructions[index]);
+                index++;
+            }
+        }
+        else{
+            printf("Invalid input");
+        }
+
+        //auto placer needs to simulate turtle
+        //make a new turtle struct that will get adjusted by auto placer
+        struct Turtle_info adjusted;
+        adjusted.startx = startx;
+        adjusted.starty = starty;
+        adjusted.distance = distance;
+        //TODO test old start point
+        //G_rgb(1,0,0);
+        //G_fill_circle(adjusted.startx, adjusted.starty, 5);
+        //G_wait_key();
+
+        auto_placer(instructions, &adjusted, angle_degree);
+        //pass the values from the adjusted struct to the draw turtle
+
+        turtle(instructions, adjusted.startx, adjusted.starty, adjusted.distance, angle_degree);
+        free(instructions);
+
+}
+
+
+void draw_crystal(double startx, double starty, double distance, double angle_degree, int depth){
+        //make a test grammar, at a depth of 10 this one makes a flower
+        struct Grammar my_rules;
+        const char* axiom = "F+F+F+F";
+
+        my_rules.rules[0].var = 'F';
+        strcpy(my_rules.rules[0].rule, "FF+F++F+F");
+        strcpy(my_rules.axiom, axiom);
+
+        char* instructions = malloc(INSTRUCTIONS_MAX*sizeof(char));
+        int success = builder(my_rules, depth, instructions);
+        if(success >= 0){
+            int index = 0;
+            while (index < strlen(instructions)){
+                //printf("%c", instructions[index]);
+                index++;
+            }
+        }
+        else{
+            printf("Invalid input");
+        }
+
+        //auto placer needs to simulate turtle
+        //make a new turtle struct that will get adjusted by auto placer
+        struct Turtle_info adjusted;
+        adjusted.startx = startx;
+        adjusted.starty = starty;
+        adjusted.distance = distance;
+        //TODO test old start point
+        //G_rgb(1,0,0);
+        //G_fill_circle(adjusted.startx, adjusted.starty, 5);
+        //G_wait_key();
+
+        auto_placer(instructions, &adjusted, angle_degree);
+        //pass the values from the adjusted struct to the draw turtle
+
+        turtle(instructions, adjusted.startx, adjusted.starty, adjusted.distance, angle_degree);
+        free(instructions);
+
+}
+
+void draw_rings(double startx, double starty, double distance, double angle_degree, int depth){
+        //make a test grammar, at a depth of 10 this one makes a flower
+        struct Grammar my_rules;
+        const char* axiom = "F+F+F+F";
+
+        my_rules.rules[0].var = 'F';
+        strcpy(my_rules.rules[0].rule, "FF+F+F+F+F+F-F");
+        strcpy(my_rules.axiom, axiom);
+
+        char* instructions = malloc(INSTRUCTIONS_MAX*sizeof(char));
+        int success = builder(my_rules, depth, instructions);
+        if(success >= 0){
+            int index = 0;
+            while (index < strlen(instructions)){
+                //printf("%c", instructions[index]);
+                index++;
+            }
+        }
+        else{
+            printf("Invalid input");
+        }
+
+        //auto placer needs to simulate turtle
+        //make a new turtle struct that will get adjusted by auto placer
+        struct Turtle_info adjusted;
+        adjusted.startx = startx;
+        adjusted.starty = starty;
+        adjusted.distance = distance;
+        //TODO test old start point
+        //G_rgb(1,0,0);
+        //G_fill_circle(adjusted.startx, adjusted.starty, 5);
+        //G_wait_key();
+
+        auto_placer(instructions, &adjusted, angle_degree);
+        //pass the values from the adjusted struct to the draw turtle
+
+        turtle(instructions, adjusted.startx, adjusted.starty, adjusted.distance, angle_degree);
+        free(instructions);
+
+}
+
 int main(){
 
     G_init_graphics (swidth,sheight) ;  // interactive graphics
     char frame_name[FRAME_SAVE]; //holds the frame_name
     int frames = FRAME_SAVE;
-    int depth = 2;
+    int depth = 3;
     double angle = 0;
     int target = 360;
     int count = 1;
@@ -370,12 +494,15 @@ int main(){
         G_clear () ;
 
         /* CODE HERE */
-        draw_cross(400.0, 200.0, distance, angle, depth);
+        //draw_cross(400.0, 200.0, distance, angle, depth);
+        //draw_triangle(400.0,200.0, distance, angle, depth);
+        //draw_crystal(400.0,200.0, distance, angle, depth);
+        draw_rings(400.0,200.0, distance, angle, depth);
         //TODO how to draw the angle to the screen
         angle++;
         count++;
-        //G_save_to_bmp_file(frame_name);
-        G_wait_key();
+        G_save_to_bmp_file(frame_name);
+        //G_wait_key();
     }
 
     // BEGIN SETDOWN
