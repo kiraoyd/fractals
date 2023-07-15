@@ -1,5 +1,5 @@
 
-//cc  m_julias.c   -lm  -lX11
+//To run: cc  m_julias.c   -lm  -lX11
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>

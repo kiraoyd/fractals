@@ -1,5 +1,5 @@
 
-//cc  mandelbrot.c   -lm  -lX11
+//to run: cc  mandelbrot.c   -lm  -lX11
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>

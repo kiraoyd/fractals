@@ -1,4 +1,4 @@
-
+/* To run: cc  triangle.c   -lm  -lX11 */
 #include  "FPToolkit.c"
 //#include <stdio.h>
 #include <math.h>
