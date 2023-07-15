@@ -1,3 +1,6 @@
+//To Run: cc wireframe.c -lm -lX11
+
+
 #include "FPToolkit.c"
 
 /*

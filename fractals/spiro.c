@@ -487,7 +487,7 @@ int main(){
     int count = 1;
     double distance = 1.0;
     while(angle < target){
-        sprintf(frame_name, "img%04d.bmp", count); //create a sequential framing scheme for the mpeg
+       // sprintf(frame_name, "img%04d.bmp", count); //create a sequential framing scheme for the mpeg
         // clear the screen in a given color
         G_rgb (0.3, 0.3, 0.3) ; // dark gray
         G_rgb(0,0,0);
@@ -501,8 +501,8 @@ int main(){
         //TODO how to draw the angle to the screen
         angle++;
         count++;
-        G_save_to_bmp_file(frame_name);
-        //G_wait_key();
+        //G_save_to_bmp_file(frame_name);
+        G_wait_key();
     }
 
     // BEGIN SETDOWN

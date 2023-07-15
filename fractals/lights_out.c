@@ -183,15 +183,15 @@ int main(){
     G_rgb (0.3, 0.3, 0.3) ; // dark gray
     G_clear () ;
 
-    //carpet_lights_out();
+    carpet_lights_out();
 
-    lights_out_frame_save();
+    //lights_out_frame_save();
 
     // BEGIN SETDOWN
      int key ;
      key =  G_wait_key() ; // pause so user can see results
 
      //   G_save_image_to_file("demo.xwd") ;
-     G_save_to_bmp_file("trees.bmp") ;
+     //G_save_to_bmp_file("trees.bmp") ;
     return 0;
 }

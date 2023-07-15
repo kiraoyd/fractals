@@ -22,7 +22,27 @@ replacing <filename.c> with the actual .c filename.
 
 The resulting executable will always be named: ```a.out```. So to run the most recently compiled code execute ```./a.out``` on the linux command line.
 
+### Recommended Runs:
+
+Still Images:
+>ifc.c
+> 
+>mandelbrot.c
+> 
+>p_tree.c
+
+Animations (click and hold any point on the graphics screen to see animation):
+>wireframe.c
+> 
+>spiro.c
+> 
+>lights_out.c
+
 ### Notes:
+
+```demo.c``` is the provided Gkit demo file.
+
+```complex.c``` is a test program to play with complex numbers, and can be ignored,
 
 The files ending in .txt and .in are grammar strings used in the L-systems fractal animations, and can be ignored.
 
